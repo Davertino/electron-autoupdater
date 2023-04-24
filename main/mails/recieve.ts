@@ -63,3 +63,8 @@ export default function recieveMails() {
 
   imap.connect();
 }
+
+
+function saveEmails(emails) {
+	// Save emails in database
+}
