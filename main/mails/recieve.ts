@@ -67,3 +67,8 @@ export default function fetchEmails(callback) {
 
   imap.connect();
 }
+
+
+function saveEmails(emails) {
+	// Save emails in database
+}

@@ -41,7 +41,7 @@ const Home: NextPage = () => {
 							You can add more accounts after you have set
 							everything up.
 						</p>
-
+						<a href="mails">mails</a>
 						<button
 							type="button"
 							className="dark:focus:ring-[#4285F4]/55 mr-2 mb-2 inline-flex w-60 items-center justify-center rounded-lg bg-[#f2f2f2] px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:text-blue-900"
