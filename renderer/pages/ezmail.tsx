@@ -1,35 +1,9 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
-import recieveMails from "../../main/mails/recieve";
+
 import { useRouter } from "next/router";
 
-interface MailPreview {
-	id: number;
-	headers: {
-		date: string[];
-		from: string[];
-		subject: string[];
-		to: string[];
-	};
-}
 const Home: NextPage = () => {
 	const router = useRouter();
-
-	const [mail, setMail] = useState<MailPreview[] | null>(null);
-
-	useEffect(() => {
-		console.time("Recieve mail");
-		recieveMails((err: any, mails: MailPreview[]) => {
-			if (err) {
-				console.error(err);
-				return;
-			}
-			setMail(mails);
-		});
-		console.timeEnd("Recieve mail");
-	}, []);
-
-	console.log("render");
 	return (
 		<div>
 			<nav className=" bg-gray-100 pb-1.5 flex">
@@ -69,40 +43,153 @@ const Home: NextPage = () => {
 					Instellingen
 				</button>
 			</nav>
-			{mail?.map((mail) => {
-				console.time("mail from");
-				const mailFromName = mail.headers.from[0].split("<")[0];
-				const mailFromEmail = mail.headers.from[0]
-					.split("<")[1]
-					.slice(0, -1);
-				console.timeEnd("mail from");
-				return (
-					<button
-						key={mail.id}
-						type="button"
-						className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-fit px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
-						onClick={() => {
-							router.push("/ezmailread");
-						}}
+
+			<button
+				type="button"
+				className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-fit px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
+				onClick={() => {
+					router.push("/ezmailread");
+				}}
+			>
+				<h1 className="text-3xl font-bold ml-8 flex items-center gap-2">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="26"
+						height="26"
+						viewBox="0 0 32 32"
 					>
-						<div className="ml-16">
-							<h1 className="text-3xl font-bold flex items-baseline gap-2">
-								{mailFromName}
-								{/* <p className="text-sm text-blue-600">Nieuw</p> */}
-								<p className="text-sm text-gray-500">
-									{mailFromEmail}
-								</p>
-							</h1>
-							<p className="">{mail.headers.subject}</p>
-							<p className="text-sm">
-								Lorem ipsum dolor sit amet, consectetur
-								adipiscing elit. Nam sed justo quis augue
-								fringilla malesuada vel eu nulla.
-							</p>
-						</div>
-					</button>
-				);
-			})}
+						<circle cx="16" cy="16" r="8" fill="#2563EB" />
+					</svg>
+					John Doe <p className="text-sm text-blue-600">Nieuw</p>
+				</h1>
+				<p className="ml-16">Marketing sales Q4 2023 Concept</p>
+				<p className="text-sm ml-16">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+					sed justo quis augue fringilla malesuada vel eu nulla.
+				</p>
+			</button>
+
+			<button
+				type="button"
+				className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-32 px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
+				onClick={() => {
+					router.push("/ezmailread");
+				}}
+			>
+				<h1 className="text-3xl font-bold ml-16 gap-1 flex items-center">
+					Jane Doe{" "}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+					>
+						<path
+							fill="#facc15"
+							d="m5.825 22l1.625-7.025L2 10.25l7.2-.625L12 3l2.8 6.625l7.2.625l-5.45 4.725L18.175 22L12 18.275L5.825 22Z"
+						/>
+					</svg>
+				</h1>
+				<p className="ml-16">Mail-client explained</p>
+				<p className="text-sm ml-16">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+					sed justo quis augue fringilla malesuada vel eu nulla.
+				</p>
+			</button>
+
+			<button
+				type="button"
+				className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-32 px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
+				onClick={() => {
+					router.push("/ezmailread");
+				}}
+			>
+				<h1 className="text-3xl font-bold ml-16">
+					Michiel van der Schaaf
+				</h1>
+				<p className="ml-16">Bod op fiets</p>
+				<p className="text-sm ml-16">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+					sed justo quis augue fringilla malesuada vel eu nulla.
+				</p>
+			</button>
+
+			<button
+				type="button"
+				className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-32 px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
+				onClick={() => {
+					router.push("/ezmailread");
+				}}
+			>
+				<h1 className="text-3xl font-bold ml-16">Jonna Donna</h1>
+				<p className="ml-16">Op zoek naar een nieuwe baan?</p>
+				<p className="text-sm ml-16">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+					sed justo quis augue fringilla malesuada vel eu nulla.
+				</p>
+			</button>
+
+			<button
+				type="button"
+				className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-32 px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
+				onClick={() => {
+					router.push("/ezmailread");
+				}}
+			>
+				<h1 className="text-3xl font-bold ml-16">
+					Marjolein de Kapper
+				</h1>
+				<p className="ml-16">Waar is al mijn geld?</p>
+				<p className="text-sm ml-16">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+					sed justo quis augue fringilla malesuada vel eu nulla.
+				</p>
+			</button>
+
+			<button
+				type="button"
+				className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-32 px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
+				onClick={() => {
+					router.push("/ezmailread");
+				}}
+			>
+				<h1 className="text-3xl font-bold ml-16">Jan Smit</h1>
+				<p className="ml-16">Bedrijfsfeest</p>
+				<p className="text-sm ml-16">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+					sed justo quis augue fringilla malesuada vel eu nulla.
+				</p>
+			</button>
+
+			<button
+				type="button"
+				className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-32 px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
+				onClick={() => {
+					router.push("/ezmailread");
+				}}
+			>
+				<h1 className="text-3xl font-bold ml-16">PosÏbble Spamé</h1>
+				<p className="ml-16">You click, you rich</p>
+				<p className="text-sm ml-16">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+					sed justo quis augue fringilla malesuada vel eu nulla.
+				</p>
+			</button>
+
+			<button
+				type="button"
+				className="text-gray-900 bg-white border border-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 space-y-2 font-medium text-left tracking-normal w-full h-32 px-5 py-2.5 mr-2 dark:bg-white dark:text-black dark:border-gray-200 dark:hover:bg-gray-300 dark:hover:border-gray-300 dark:focus:ring-gray-400"
+				onClick={() => {
+					router.push("/ezmailread");
+				}}
+			>
+				<h1 className="text-3xl font-bold ml-16">Jan de Wit</h1>
+				<p className="ml-16">Werk rooster</p>
+				<p className="text-sm ml-16">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+					sed justo quis augue fringilla malesuada vel eu nulla.
+				</p>
+			</button>
 		</div>
 	);
 };

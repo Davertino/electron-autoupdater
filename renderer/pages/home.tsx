@@ -33,7 +33,7 @@ const Home: NextPage = () => {
 		<div>
 			<div>
 				<div className="flex min-h-screen flex-col items-center justify-center bg-background text-center">
-					<div className="bg-white-border z-10 block max-w-sm rounded-lg border-gray-200 bg-white p-6 shadow dark:border-gray-700">
+					<a className="bg-white-border z-10 block max-w-sm rounded-lg border-gray-200 bg-white p-6 shadow dark:border-gray-700">
 						<h4 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-blue-900">
 							Start with adding a mail account
 						</h4>
@@ -180,14 +180,7 @@ const Home: NextPage = () => {
 								Other mail account...
 							</span>
 						</button>
-						<a
-							href="./ezmail"
-							type="button"
-							className="dark:focus:ring-[#4285F4]/55 mr-2 mb-2 inline-flex w-60 items-center justify-center rounded-lg bg-[#f2f2f2] px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:text-blue-900"
-						>
-							ezmail
-						</a>
-					</div>
+					</a>
 				</div>
 			</div>
 
