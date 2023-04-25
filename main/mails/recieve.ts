@@ -1,63 +1,67 @@
 import Imap from "node-imap";
-import { inspect } from "util";
 
-export default function recieveMails() {
+export default function fetchEmails(callback) {
+  // Tijdelijk: Later invullen met data uit database
   let imap = new Imap({
-    user: "mail@meespostma.nl",
-    password: "",
-    host: "mail.zxcs.nl",
+    user: process.env.NEXT_PUBLIC_MAIL_USER,
+    password: process.env.NEXT_PUBLIC_MAIL_PASS,
+    host: process.env.NEXT_PUBLIC_MAIL_HOST,
     port: 993,
     tls: true,
   });
 
-  function openInbox(cb) {
-    imap.openBox("INBOX", true, cb);
-  }
+  const messages = [];
 
-  imap.once("ready", function () {
-    openInbox(function (err, box) {
-      if (err) throw err;
-      var f = imap.seq.fetch("1:3", {
-        bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
-        struct: true,
-      });
-      f.on("message", function (msg, seqno) {
-        console.log("Message #%d", seqno);
-        var prefix = "(#" + seqno + ") ";
-        msg.on("body", function (stream, info) {
-          var buffer = "";
-          stream.on("data", function (chunk) {
-            buffer += chunk.toString("utf8");
+  imap.once("ready", () => {
+    imap.openBox("INBOX", false, (err, box) => {
+      if (err) return callback(err);
+
+      imap.search(["ALL"], (err, results) => {
+        if (err) return callback(err);
+
+        results.forEach((messageId) => {
+          const fetchOptions = {
+            bodies: ["HEADER.FIELDS (FROM TO SUBJECT DATE)"],
+            struct: true,
+          };
+
+          const message = {
+            id: messageId,
+            headers: {},
+          };
+
+          const fetch = imap.fetch(messageId, fetchOptions);
+
+          fetch.on("message", (msg) => {
+            msg.on("body", (stream, info) => {
+              let buffer = "";
+              stream.on("data", (chunk) => {
+                buffer += chunk.toString("utf8");
+              });
+              stream.on("end", () => {
+                const parsedHeaders = Imap.parseHeader(buffer);
+                message.headers = parsedHeaders;
+              });
+            });
           });
-          stream.once("end", function () {
-            console.log(
-              prefix + "Parsed header: %s",
-              inspect(Imap.parseHeader(buffer))
-            );
+
+          fetch.on("end", () => {
+            messages.push(message);
+            if (messages.length === results.length) {
+              imap.end();
+              callback(null, messages);
+            }
           });
         });
-        msg.once("attributes", function (attrs) {
-          console.log(prefix + "Attributes: %s", inspect(attrs, false, 8));
-        });
-        msg.once("end", function () {
-          console.log(prefix + "Finished");
-        });
-      });
-      f.once("error", function (err) {
-        console.log("Fetch error: " + err);
-      });
-      f.once("end", function () {
-        console.log("Done fetching all messages!");
-        imap.end();
       });
     });
   });
 
-  imap.once("error", function (err) {
-    console.log(err);
+  imap.once("error", (err) => {
+    callback(err);
   });
 
-  imap.once("end", function () {
+  imap.once("end", () => {
     console.log("Connection ended");
   });
 
