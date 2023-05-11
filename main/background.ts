@@ -1,8 +1,10 @@
-import { app } from 'electron';
-import serve from 'electron-serve';
-import { createWindow } from './helpers';
+import "reflect-metadata";
+import { app, ipcMain } from "electron";
+import serve from "electron-serve";
+import { createWindow } from "./helpers";
 import { createDatabase } from "typeorm-extension";
-import { DataSourceOptions } from "typeorm";
+import { placeItemDb } from "./mails/save";
+import { getItemDb } from "./mails/get";
 import { options } from "../lib/utils";
 const isProd: boolean = process.env.NODE_ENV === "production";
 
@@ -33,6 +35,18 @@ if (isProd) {
 	}
 })();
 
-app.on('window-all-closed', () => {
-  app.quit();
+app.on("window-all-closed", () => {
+	app.quit();
+});
+
+ipcMain.on("placeItemDb", async (event, arg) => {
+	const res = await placeItemDb();
+
+	event.returnValue(res);
+});
+
+ipcMain.on("getItemDb", async (event, arg) => {
+	const res = await getItemDb();
+
+	event.returnValue(res);
 });
