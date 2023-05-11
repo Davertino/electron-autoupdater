@@ -1,4 +1,4 @@
-import Select, { Option } from "@/components/Select";
+import Select, { Option } from "@/renderer/components/Select";
 import { Dialog, Transition } from "@headlessui/react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
