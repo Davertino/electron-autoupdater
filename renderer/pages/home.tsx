@@ -33,7 +33,7 @@ const Home: NextPage = () => {
 		<div>
 			<div>
 				<div className="flex min-h-screen flex-col items-center justify-center bg-background text-center">
-					<a className="bg-white-border z-10 block max-w-sm rounded-lg border-gray-200 bg-white p-6 shadow dark:border-gray-700">
+					<div className="bg-white-border z-10 block max-w-sm rounded-lg border-gray-200 bg-white p-6 shadow dark:border-gray-700">
 						<h4 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-blue-900">
 							Start with adding a mail account
 						</h4>
@@ -180,7 +180,7 @@ const Home: NextPage = () => {
 								Other mail account...
 							</span>
 						</button>
-					</a>
+					</div>
 				</div>
 			</div>
 
