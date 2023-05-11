@@ -16,12 +16,11 @@ export default function Database() {
 			ipcRenderer.send("getItemDb", { name: "test" });
 			ipcRenderer.on("getItemDb", (event, arg) => {
 				console.log(arg);
-				console.log(event);
 				setDb(arg);
 			});
 		}
 	};
-
+	console.log(db);
 	return (
 		<div>
 			<h1>Database</h1>

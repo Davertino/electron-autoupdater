@@ -9,5 +9,5 @@ export async function placeItemDb() {
 	mail.body = "body";
 	mail.sent = false;
 	mail.sentDate = new Date();
-	await mail.save();
+	return await mail.save();
 }

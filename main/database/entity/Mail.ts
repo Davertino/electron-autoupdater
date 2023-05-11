@@ -11,13 +11,13 @@ export class Mail extends BaseEntity {
 	@Column("text")
 	recievers: string;
 
-	@Column("text")
+	@Column("text", { nullable: true })
 	subject: string;
 
 	@Column("text")
 	body: string;
 
-	@Column("text")
+	@Column("text", { nullable: true })
 	attachment: string;
 
 	@Column("boolean")

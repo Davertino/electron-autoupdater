@@ -6,6 +6,8 @@ import { createDatabase } from "typeorm-extension";
 import { placeItemDb } from "./mails/save";
 import { getItemDb } from "./mails/get";
 import { options } from "../lib/utils";
+import { AppDataSource } from "./database/data-source";
+
 const isProd: boolean = process.env.NODE_ENV === "production";
 
 if (isProd) {
@@ -26,6 +28,8 @@ if (isProd) {
 		height: 600,
 	});
 
+	AppDataSource.initialize();
+
 	if (isProd) {
 		await mainWindow.loadURL("app://./home.html");
 	} else {
@@ -40,13 +44,13 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on("placeItemDb", async (event, arg) => {
+	console.log("placeItemDb");
 	const res = await placeItemDb();
-
-	event.returnValue(res);
+	console.log("placeItemDb", res);
 });
 
 ipcMain.on("getItemDb", async (event, arg) => {
 	const res = await getItemDb();
-
-	event.returnValue(res);
+	event.reply("getItemDb", res);
+	return;
 });
