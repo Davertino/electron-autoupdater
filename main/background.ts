@@ -1,30 +1,36 @@
 import { app } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
-
-const isProd: boolean = process.env.NODE_ENV === 'production';
+import { createDatabase } from "typeorm-extension";
+import { DataSourceOptions } from "typeorm";
+import { options } from "../lib/utils";
+const isProd: boolean = process.env.NODE_ENV === "production";
 
 if (isProd) {
-  serve({ directory: 'app' });
+	serve({ directory: "app" });
 } else {
-  app.setPath('userData', `${app.getPath('userData')} (development)`);
+	app.setPath("userData", `${app.getPath("userData")} (development)`);
 }
 
 (async () => {
-  await app.whenReady();
+	await app.whenReady();
 
-  const mainWindow = createWindow('main', {
-    width: 1000,
-    height: 600,
-  });
+	// Create the database with specification of the DataSource options
+	await createDatabase({
+		options,
+	});
+	const mainWindow = createWindow("main", {
+		width: 1000,
+		height: 600,
+	});
 
-  if (isProd) {
-    await mainWindow.loadURL('app://./home.html');
-  } else {
-    const port = process.argv[2];
-    await mainWindow.loadURL(`http://localhost:${port}/home`);
-    mainWindow.webContents.openDevTools();
-  }
+	if (isProd) {
+		await mainWindow.loadURL("app://./home.html");
+	} else {
+		const port = process.argv[2];
+		await mainWindow.loadURL(`http://localhost:${port}/home`);
+		mainWindow.webContents.openDevTools();
+	}
 })();
 
 app.on('window-all-closed', () => {

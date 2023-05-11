@@ -2,8 +2,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 
-import { Card } from "@/components/Card";
-import { CardButton } from "@/components/CardButton";
+import { Card } from "@/renderer/components/Card";
+import { CardButton } from "@/renderer/components/CardButton";
 
 import { useRouter } from "next/router";
 
