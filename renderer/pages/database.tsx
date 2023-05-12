@@ -18,7 +18,7 @@ export default function Database() {
 				console.log(arg);
 				setDb(arg);
 			});
-		}
+		}	
 	};
 	return (
 		<div>

@@ -1,12 +1,14 @@
 import Select, { Option } from "@/renderer/components/Select";
 import { Dialog, Transition } from "@headlessui/react";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
+import electron from "electron";
 import { FormEventHandler, Fragment, useState } from "react";
+import { useRouter } from "next/router";
+const ipcRenderer = electron.ipcRenderer || false;
 
 const Home: NextPage = () => {
 	let [isOpen, setIsOpen] = useState(false);
-
+	const router = useRouter();
 	const options: Option[] = [
 		{ value: "IMAP", label: "IMAP" },
 		{ value: "POP3", label: "POP3" },
@@ -25,8 +27,16 @@ const Home: NextPage = () => {
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
-
-		console.log("hello submit");
+		const saveUser = () => {
+			if (ipcRenderer) {
+				ipcRenderer.send("saveUser", { name: "test" });
+				ipcRenderer.on("saveUser", (event, arg) => {
+					if (arg.success) {
+						router.push("/ezmail");
+					}
+				});
+			}
+		};
 	};
 
 	return (

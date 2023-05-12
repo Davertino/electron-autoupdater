@@ -7,6 +7,7 @@ import { placeItemDb } from "./mails/save";
 import { getItemDb } from "./mails/get";
 import { options } from "../lib/utils";
 import { AppDataSource } from "./database/data-source";
+import { saveUser } from "./Users/save";
 
 const isProd: boolean = process.env.NODE_ENV === "production";
 
@@ -55,6 +56,15 @@ ipcMain.on("placeItemDb", async (event, arg) => {
 ipcMain.on("getItemDb", async (event, arg) => {
 	try {
 		const res = await getItemDb();
+		return event.reply("getItemDb", res);
+	} catch (e) {
+		event.reply("getItemDb", { status: "error" });
+	}
+});
+
+ipcMain.on("saveUser", async (event, arg) => {
+	try {
+		const res = await saveUser(arg);
 		return event.reply("getItemDb", res);
 	} catch (e) {
 		event.reply("getItemDb", { status: "error" });
