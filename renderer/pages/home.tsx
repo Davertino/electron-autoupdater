@@ -27,7 +27,7 @@ const Home: NextPage = () => {
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
-		const saveUser = () => {
+
 			if (ipcRenderer) {
 				ipcRenderer.send("saveUser", { name: "test" });
 				ipcRenderer.on("saveUser", (event, arg) => {
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
 					}
 				});
 			}
-		};
+
 	};
 
 	return (
