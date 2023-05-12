@@ -80,8 +80,8 @@ const regularDirname = hasDirname && fs.existsSync(path.join(__dirname, 'schema.
 
 // if the client has been bundled, we need to look for the folders
 const foundDirname = !regularDirname && findSync(process.cwd(), [
-    "main/database/generated/client",
-    "database/generated/client",
+    "main\\database\\generated\\client",
+    "database\\generated\\client",
 ], ['d'], ['d'], 1)[0]
 
 const dirname = regularDirname || foundDirname || __dirname
@@ -150,7 +150,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/svennijholt/Documents/Dev/crail/electron-app/main/database/generated/client",
+      "value": "C:\\Users\\simon\\OneDrive\\Documents\\GitHub\\electron-app\\main\\database\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -161,10 +161,9 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../../.env",
-    "schemaEnvPath": "../../../../.env"
+    "rootEnvPath": null
   },
-  "relativePath": "../../../../prisma",
+  "relativePath": "..\\..\\..\\..\\prisma",
   "clientVersion": "4.13.0",
   "engineVersion": "1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a",
   "datasourceNames": [
@@ -172,7 +171,7 @@ const config = {
   ],
   "activeProvider": "sqlite",
   "dataProxy": false,
-  "postinstall": false
+  "postinstall": true
 }
 config.dirname = dirname
 config.document = dmmf
@@ -192,7 +191,7 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
-path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
-path.join(process.cwd(), "main/database/generated/client/libquery_engine-darwin-arm64.dylib.node")
+path.join(__dirname, "query_engine-windows.dll.node");
+path.join(process.cwd(), "main\\database\\generated\\client\\query_engine-windows.dll.node")
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "main/database/generated/client/schema.prisma")
+path.join(process.cwd(), "main\\database\\generated\\client\\schema.prisma")
