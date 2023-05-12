@@ -20,7 +20,6 @@ export default function Database() {
 			});
 		}
 	};
-	console.log(db);
 	return (
 		<div>
 			<h1>Database</h1>

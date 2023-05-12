@@ -44,13 +44,19 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on("placeItemDb", async (event, arg) => {
-	console.log("placeItemDb");
-	const res = await placeItemDb();
-	console.log("placeItemDb", res);
+	try {
+		const res = await placeItemDb();
+		return event.reply("placeItemDb", { status: "ok" });
+	} catch (e) {
+		return event.reply("placeItemDb", { status: "error" });
+	}
 });
 
 ipcMain.on("getItemDb", async (event, arg) => {
-	const res = await getItemDb();
-	event.reply("getItemDb", res);
-	return;
+	try {
+		const res = await getItemDb();
+		return event.reply("getItemDb", res);
+	} catch (e) {
+		event.reply("getItemDb", { status: "error" });
+	}
 });
