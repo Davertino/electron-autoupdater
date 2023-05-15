@@ -9,7 +9,8 @@ import { options } from "../lib/utils";
 import { AppDataSource } from "./database/data-source";
 import { saveUser } from "./Users/save";
 import createAccount from "./accounts/create";
-
+import { Repository } from "typeorm";
+import { Users } from "./database/entity/Users";
 const isProd: boolean = process.env.NODE_ENV === "production";
 
 if (isProd) {
@@ -30,16 +31,24 @@ if (isProd) {
 		height: 600,
 	});
 
-	AppDataSource.initialize();
+	await AppDataSource.initialize();
+
+	const user = await Users.find();
 
 	if (isProd) {
-		await mainWindow.loadURL("app://./home.html");
+		if (user.length === 0) {
+			await mainWindow.loadURL("app://./home.html");
+		}
+		await mainWindow.loadURL("app://./ezmail.html");
 	} else {
+		console.log(Users.find());
+
 		const port = process.argv[2];
-		const windoa = await mainWindow.loadURL(
-			`http://localhost:${port}/home`
-		);
-		console.log(windoa);
+		if (user.length === 0) {
+			await mainWindow.loadURL(`http://localhost:${port}/home`);
+		}
+		await mainWindow.loadURL(`http://localhost:${port}/ezmail`);
+
 		mainWindow.webContents.openDevTools();
 	}
 })();
