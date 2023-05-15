@@ -28,15 +28,14 @@ const Home: NextPage = () => {
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 
-			if (ipcRenderer) {
-				ipcRenderer.send("saveUser", { name: "test" });
-				ipcRenderer.on("saveUser", (event, arg) => {
-					if (arg.status === "success") {
-						router.push("/ezmail");
-					}
-				});
-			}
-
+		if (ipcRenderer) {
+			ipcRenderer.send("newUser", mailServerData);
+			ipcRenderer.on("newUser", (event, arg) => {
+				if (arg.statusCode === 200) {
+					router.push("/ezmail");
+				}
+			});
+		}
 	};
 
 	return (

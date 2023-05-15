@@ -8,6 +8,7 @@ import { getItemDb } from "./mails/get";
 import { options } from "../lib/utils";
 import { AppDataSource } from "./database/data-source";
 import { saveUser } from "./Users/save";
+import createAccount from "./accounts/create";
 
 const isProd: boolean = process.env.NODE_ENV === "production";
 
@@ -35,7 +36,10 @@ if (isProd) {
 		await mainWindow.loadURL("app://./home.html");
 	} else {
 		const port = process.argv[2];
-		await mainWindow.loadURL(`http://localhost:${port}/home`);
+		const windoa = await mainWindow.loadURL(
+			`http://localhost:${port}/home`
+		);
+		console.log(windoa);
 		mainWindow.webContents.openDevTools();
 	}
 })();
@@ -47,7 +51,7 @@ app.on("window-all-closed", () => {
 ipcMain.on("placeItemDb", async (event, arg) => {
 	try {
 		const res = await placeItemDb();
-		return event.reply("placeItemDb", { status: "success" });
+		return event.reply("placeItemDb", { status: "ok" });
 	} catch (e) {
 		return event.reply("placeItemDb", { status: "error" });
 	}
@@ -62,11 +66,13 @@ ipcMain.on("getItemDb", async (event, arg) => {
 	}
 });
 
-ipcMain.on("saveUser", async (event, arg) => {
+ipcMain.on("newUser", async (event, arg) => {
 	try {
-		const res = await saveUser(arg);
-		return event.reply("saveUser", { status: "success" });
+		const res = await createAccount(arg);
+
+		console.log(res, "Response");
+		return event.reply("newUser", res);
 	} catch (e) {
-		event.reply("saveUser", { status: "error" });
+		event.reply("newUser", { status: "error" });
 	}
 });
