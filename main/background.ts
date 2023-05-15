@@ -41,8 +41,6 @@ if (isProd) {
 		}
 		await mainWindow.loadURL("app://./ezmail.html");
 	} else {
-		console.log(Users.find());
-
 		const port = process.argv[2];
 		if (user.length === 0) {
 			await mainWindow.loadURL(`http://localhost:${port}/home`);
