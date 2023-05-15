@@ -1,28 +1,28 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 @Entity()
-export class Mail {
+export class Mail extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column()
+	@Column("text")
 	sender: string;
 
-	@Column()
+	@Column("text")
 	recievers: string;
 
-	@Column()
+	@Column("text", { nullable: true })
 	subject: string;
 
-	@Column()
+	@Column("text")
 	body: string;
 
-	@Column()
+	@Column("text", { nullable: true })
 	attachment: string;
 
-	@Column()
+	@Column("boolean")
 	sent: boolean;
 
-	@Column()
+	@Column("date")
 	sentDate: Date;
 }

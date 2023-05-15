@@ -1,9 +1,14 @@
-import { app } from 'electron';
-import serve from 'electron-serve';
-import { createWindow } from './helpers';
+import "reflect-metadata";
+import { app, ipcMain } from "electron";
+import serve from "electron-serve";
+import { createWindow } from "./helpers";
 import { createDatabase } from "typeorm-extension";
-import { DataSourceOptions } from "typeorm";
+import { placeItemDb } from "./mails/save";
+import { getItemDb } from "./mails/get";
 import { options } from "../lib/utils";
+import { AppDataSource } from "./database/data-source";
+import { saveUser } from "./Users/save";
+
 const isProd: boolean = process.env.NODE_ENV === "production";
 
 if (isProd) {
@@ -24,6 +29,8 @@ if (isProd) {
 		height: 600,
 	});
 
+	AppDataSource.initialize();
+
 	if (isProd) {
 		await mainWindow.loadURL("app://./home.html");
 	} else {
@@ -33,6 +40,33 @@ if (isProd) {
 	}
 })();
 
-app.on('window-all-closed', () => {
-  app.quit();
+app.on("window-all-closed", () => {
+	app.quit();
+});
+
+ipcMain.on("placeItemDb", async (event, arg) => {
+	try {
+		const res = await placeItemDb();
+		return event.reply("placeItemDb", { status: "ok" });
+	} catch (e) {
+		return event.reply("placeItemDb", { status: "error" });
+	}
+});
+
+ipcMain.on("getItemDb", async (event, arg) => {
+	try {
+		const res = await getItemDb();
+		return event.reply("getItemDb", res);
+	} catch (e) {
+		event.reply("getItemDb", { status: "error" });
+	}
+});
+
+ipcMain.on("saveUser", async (event, arg) => {
+	try {
+		const res = await saveUser(arg);
+		return event.reply("getItemDb", res);
+	} catch (e) {
+		event.reply("getItemDb", { status: "error" });
+	}
 });
