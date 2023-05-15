@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Search from "components/Search"
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
@@ -25,9 +24,6 @@ const Home: NextPage = () => {
 
 					<p>Nieuw bericht</p>
 				</button>
-				<Search>
-					
-				</Search>
 				<button
 					type="button"
 					className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 flex gap-1 items-center justify-center text-center font-medium rounded-lg text-sm float-right ml-auto px-5 mr-2 mb-2 mt-3 w-56 h-8 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
