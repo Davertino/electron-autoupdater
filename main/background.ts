@@ -47,7 +47,7 @@ app.on("window-all-closed", () => {
 ipcMain.on("placeItemDb", async (event, arg) => {
 	try {
 		const res = await placeItemDb();
-		return event.reply("placeItemDb", { status: "ok" });
+		return event.reply("placeItemDb", { status: "success" });
 	} catch (e) {
 		return event.reply("placeItemDb", { status: "error" });
 	}
@@ -65,8 +65,8 @@ ipcMain.on("getItemDb", async (event, arg) => {
 ipcMain.on("saveUser", async (event, arg) => {
 	try {
 		const res = await saveUser(arg);
-		return event.reply("getItemDb", res);
+		return event.reply("saveUser", { status: "success" });
 	} catch (e) {
-		event.reply("getItemDb", { status: "error" });
+		event.reply("saveUser", { status: "error" });
 	}
 });

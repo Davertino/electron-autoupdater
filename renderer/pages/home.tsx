@@ -31,7 +31,7 @@ const Home: NextPage = () => {
 			if (ipcRenderer) {
 				ipcRenderer.send("saveUser", { name: "test" });
 				ipcRenderer.on("saveUser", (event, arg) => {
-					if (arg.success) {
+					if (arg.status === "success") {
 						router.push("/ezmail");
 					}
 				});
