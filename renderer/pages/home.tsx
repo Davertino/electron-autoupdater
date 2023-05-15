@@ -14,19 +14,19 @@ const Home: NextPage = () => {
 		{ value: "POP3", label: "POP3" },
 	];
 
-	const [selected, setSelected] = useState<Option>(options[0]);
+  const [selected, setSelected] = useState<Option>(options[0]);
 
-	const [mailServerData, setMailServerData] = useState({
-		email: "",
-		username: "",
-		password: "",
-		accountType: selected.value,
-		incomingServer: "",
-		outgoingServer: "",
-	});
+  const [mailServerData, setMailServerData] = useState({
+    email: "",
+    username: "",
+    password: "",
+    accountType: selected.value,
+    incomingServer: "",
+    outgoingServer: "",
+  });
 
-	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-		e.preventDefault();
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
 
 			if (ipcRenderer) {
 				ipcRenderer.send("saveUser", { name: "test" });
@@ -196,186 +196,221 @@ const Home: NextPage = () => {
 				</div>
 			</div>
 
-			<Transition.Root show={isOpen} as={Fragment}>
-				<Dialog
-					as="div"
-					className="relative z-10"
-					onClose={() => setIsOpen(false)}
-				>
-					<Transition.Child
-						as={Fragment}
-						enter="ease-out duration-300"
-						enterFrom="opacity-0"
-						enterTo="opacity-100"
-						leave="ease-in duration-200"
-						leaveFrom="opacity-100"
-						leaveTo="opacity-0"
-					>
-						<div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-					</Transition.Child>
+              <span className="mx-auto">Sign in with Yahoo!</span>
+            </button>
+            <br></br>
+            <button
+              type="button"
+              className="dark:focus:ring-[#4285F4]/55 mr-2 mb-2 inline-flex w-60 items-center justify-center rounded-lg bg-[#f2f2f2] px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:text-blue-900"
+            >
+              <svg
+                className="h-6 w-6"
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fab"
+                data-icon="yahoo"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>AOL</title>
+                <path
+                  fill="currentColor"
+                  d="M13.07 9.334c2.526 0 3.74 1.997 3.74 3.706 0 1.709-1.214 3.706-3.74 3.706-2.527 0-3.74-1.997-3.74-3.706 0-1.709 1.213-3.706 3.74-3.706m0 5.465c.9 0 1.663-.741 1.663-1.759 0-1.018-.763-1.759-1.663-1.759s-1.664.741-1.664 1.759c0 1.018.764 1.76 1.664 1.76m4.913-7.546h2.104v9.298h-2.104zm4.618 6.567a1.398 1.398 0 1 0 .002 2.796 1.398 1.398 0 0 0-.002-2.796M5.536 7.254H3.662L0 16.55h2.482l.49-1.343h3.23l.452 1.343H9.16zm-1.91 6.068L4.6 10.08l.974 3.242H3.626z"
+                />
+              </svg>
+              <span className="mx-auto">Sign in with Aol.</span>
+            </button>
+            <br></br>
+            <button
+              onClick={() => setIsOpen(true)}
+              type="button"
+              className="dark:focus:ring-[#4285F4]/55 mr-2 mb-2 inline-flex w-60 items-center justify-center rounded-lg bg-[#f2f2f2] px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:text-blue-900"
+            >
+              <svg
+                className="h-4 w-4"
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fab"
+                data-icon="apple"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"
+                />
+              </svg>
+              <span className="mx-auto">Other mail account...</span>
+            </button>
+          </a>
+        </div>
+      </div>
 
-					<div className="fixed inset-0 z-20 overflow-y-auto">
-						<div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-							<Transition.Child
-								as={Fragment}
-								enter="ease-out duration-300"
-								enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-								enterTo="opacity-100 translate-y-0 sm:scale-100"
-								leave="ease-in duration-200"
-								leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-								leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-							>
-								<Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-									<div>
-										<div className="">
-											<Dialog.Title className="mb-8 text-base font-semibold leading-6 text-gray-900">
-												Add your mail account
-											</Dialog.Title>
+      <Transition.Root show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setIsOpen(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
 
-											<form
-												onSubmit={handleSubmit}
-												className="space-y-6"
-											>
-												<div>
-													<label
-														htmlFor="email"
-														className="block text-sm font-medium leading-6 text-gray-900"
-													>
-														E-mailadress
-													</label>
-													<input
-														type="email"
-														id="email"
-														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-														onChange={({
-															target,
-														}) =>
-															setMailServerData({
-																...mailServerData,
-																email: target.value,
-															})
-														}
-													/>
-												</div>
+          <div className="fixed inset-0 z-20 overflow-y-auto">
+            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              >
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                  <div>
+                    <div className="">
+                      <Dialog.Title className="mb-8 text-base font-semibold leading-6 text-gray-900">
+                        Add your mail account
+                      </Dialog.Title>
 
-												<div>
-													<label
-														htmlFor="username"
-														className="block text-sm font-medium leading-6 text-gray-900"
-													>
-														Username
-													</label>
-													<input
-														type="text"
-														id="username"
-														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-														onChange={({
-															target,
-														}) =>
-															setMailServerData({
-																...mailServerData,
-																username:
-																	target.value,
-															})
-														}
-													/>
-												</div>
+                      <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                          <label
+                            htmlFor="email"
+                            className="block text-sm font-medium leading-6 text-gray-900"
+                          >
+                            E-mailadress
+                          </label>
+                          <input
+                            type="email"
+                            id="email"
+                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            onChange={({ target }) =>
+                              setMailServerData({
+                                ...mailServerData,
+                                email: target.value,
+                              })
+                            }
+                          />
+                        </div>
 
-												<div>
-													<label
-														htmlFor="username"
-														className="block text-sm font-medium leading-6 text-gray-900"
-													>
-														Password
-													</label>
-													<input
-														type="password"
-														id="password"
-														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-														onChange={({
-															target,
-														}) =>
-															setMailServerData({
-																...mailServerData,
-																password:
-																	target.value,
-															})
-														}
-													/>
-												</div>
+                        <div>
+                          <label
+                            htmlFor="username"
+                            className="block text-sm font-medium leading-6 text-gray-900"
+                          >
+                            Username
+                          </label>
+                          <input
+                            type="text"
+                            id="username"
+                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            onChange={({ target }) =>
+                              setMailServerData({
+                                ...mailServerData,
+                                username: target.value,
+                              })
+                            }
+                          />
+                        </div>
 
-												<Select
-													label="Account type"
-													options={options}
-													selected={selected}
-													setSelected={setSelected}
-												/>
+                        <div>
+                          <label
+                            htmlFor="username"
+                            className="block text-sm font-medium leading-6 text-gray-900"
+                          >
+                            Password
+                          </label>
+                          <input
+                            type="password"
+                            id="password"
+                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            onChange={({ target }) =>
+                              setMailServerData({
+                                ...mailServerData,
+                                password: target.value,
+                              })
+                            }
+                          />
+                        </div>
 
-												<div>
-													<label
-														htmlFor="username"
-														className="block text-sm font-medium leading-6 text-gray-900"
-													>
-														Incoming Mail Server
-													</label>
-													<input
-														type="text"
-														id="incoming-server"
-														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-														onChange={({
-															target,
-														}) =>
-															setMailServerData({
-																...mailServerData,
-																incomingServer:
-																	target.value,
-															})
-														}
-													/>
-												</div>
+                        <Select
+                          label="Account type"
+                          options={options}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
 
-												<div>
-													<label
-														htmlFor="username"
-														className="block text-sm font-medium leading-6 text-gray-900"
-													>
-														Outgoing Mail Server
-													</label>
-													<input
-														type="text"
-														id="outgoing-server"
-														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-														onChange={({
-															target,
-														}) =>
-															setMailServerData({
-																...mailServerData,
-																outgoingServer:
-																	target.value,
-															})
-														}
-													/>
-												</div>
+                        <div>
+                          <label
+                            htmlFor="username"
+                            className="block text-sm font-medium leading-6 text-gray-900"
+                          >
+                            Incoming Mail Server
+                          </label>
+                          <input
+                            type="text"
+                            id="incoming-server"
+                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            onChange={({ target }) =>
+                              setMailServerData({
+                                ...mailServerData,
+                                incomingServer: target.value,
+                              })
+                            }
+                          />
+                        </div>
 
-												<div>
-													<button
-														type="submit"
-														className="w-full rounded bg-indigo-600 px-2 py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-													>
-														Submit
-													</button>
-												</div>
-											</form>
-										</div>
-									</div>
-								</Dialog.Panel>
-							</Transition.Child>
-						</div>
-					</div>
-				</Dialog>
-			</Transition.Root>
-		</div>
-	);
+                        <div>
+                          <label
+                            htmlFor="username"
+                            className="block text-sm font-medium leading-6 text-gray-900"
+                          >
+                            Outgoing Mail Server
+                          </label>
+                          <input
+                            type="text"
+                            id="outgoing-server"
+                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            onChange={({ target }) =>
+                              setMailServerData({
+                                ...mailServerData,
+                                outgoingServer: target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div>
+                          <button
+                            type="submit"
+                            className="w-full rounded bg-indigo-600 px-2 py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition.Root>
+    </div>
+  );
 };
 
 export default Home;
