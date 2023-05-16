@@ -25,6 +25,15 @@ const Home: NextPage = () => {
     outgoingServer: "",
   });
 
+  const [errors, setErrors] = useState({
+    email: [],
+    username: [],
+    password: [],
+    accountType: [],
+    incomingServer: [],
+    outgoingServer: [],
+  });
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
@@ -33,6 +42,11 @@ const Home: NextPage = () => {
       ipcRenderer.on("newUser", (event, arg) => {
         if (arg.statusCode === 200) {
           router.push("/ezmail");
+        }
+
+        if (arg.statusCode === 400) {
+          console.log(arg.errors);
+          setErrors(arg.errors);
         }
       });
     }
@@ -245,6 +259,18 @@ const Home: NextPage = () => {
                               })
                             }
                           />
+
+                          <ul className="mt-1">
+                            {errors?.email === undefined
+                              ? null
+                              : errors?.email.map((error, index) => {
+                                  return (
+                                    <li className="text-red-400" key={index}>
+                                      {error}
+                                    </li>
+                                  );
+                                })}
+                          </ul>
                         </div>
 
                         <div>
@@ -265,6 +291,18 @@ const Home: NextPage = () => {
                               })
                             }
                           />
+
+                          <ul className="mt-1">
+                            {errors?.username === undefined
+                              ? null
+                              : errors?.username.map((error, index) => {
+                                  return (
+                                    <li className="text-red-400" key={index}>
+                                      {error}
+                                    </li>
+                                  );
+                                })}
+                          </ul>
                         </div>
 
                         <div>
@@ -285,6 +323,18 @@ const Home: NextPage = () => {
                               })
                             }
                           />
+
+                          <ul className="mt-1">
+                            {errors?.password === undefined
+                              ? null
+                              : errors?.password.map((error, index) => {
+                                  return (
+                                    <li className="text-red-400" key={index}>
+                                      {error}
+                                    </li>
+                                  );
+                                })}
+                          </ul>
                         </div>
 
                         <Select
@@ -312,6 +362,18 @@ const Home: NextPage = () => {
                               })
                             }
                           />
+
+                          <ul className="mt-1">
+                            {errors?.incomingServer === undefined
+                              ? null
+                              : errors?.incomingServer.map((error, index) => {
+                                  return (
+                                    <li className="text-red-400" key={index}>
+                                      {error}
+                                    </li>
+                                  );
+                                })}
+                          </ul>
                         </div>
 
                         <div>
@@ -332,6 +394,18 @@ const Home: NextPage = () => {
                               })
                             }
                           />
+
+                          <ul className="mt-1">
+                            {errors?.outgoingServer === undefined
+                              ? null
+                              : errors?.outgoingServer.map((error, index) => {
+                                  return (
+                                    <li className="text-red-400" key={index}>
+                                      {error}
+                                    </li>
+                                  );
+                                })}
+                          </ul>
                         </div>
 
                         <div>
