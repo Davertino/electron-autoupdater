@@ -35,16 +35,17 @@ if (isProd) {
 	const user = await Users.find();
 
 	if (isProd) {
-		if (user.length === 0) {
-			await mainWindow.loadURL("app://./home.html");
+		if (user.length != 0) {
+			await mainWindow.loadURL("app://./ezmail.html");
 		}
-		await mainWindow.loadURL("app://./ezmail.html");
+		await mainWindow.loadURL("app://./home.html");
+
 	} else {
 		const port = process.argv[2];
-		if (user.length === 0) {
-			await mainWindow.loadURL(`http://localhost:${port}/home`);
+		if (user.length != 0) {
+			await mainWindow.loadURL(`http://localhost:${port}/ezmail`);
 		}
-		await mainWindow.loadURL(`http://localhost:${port}/ezmail`);
+		await mainWindow.loadURL(`http://localhost:${port}/home`);
 
 		mainWindow.webContents.openDevTools();
 	}
