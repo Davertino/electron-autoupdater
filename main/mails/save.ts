@@ -1,20 +1,32 @@
-import { PrismaClient } from "../database/generated/client";
+import { Mail } from "../database/entity/Mail";
 
-function saveEmails(emails: any) {
-	const prisma = new PrismaClient();
-	//save email in db using prisma
-	emails.forEach((email) => {
-		prisma.email.create({
-			data: {
-				// id: email.id,
-				sender: email.headers.from,
-				recipient: email.headers.to,
-				subject: email.headers.subject,
-				timestamp: email.headers.date,
-				body: email.body,
-			},
-		});
-	});
 
-	return true;
+export async function placeItemDb({
+	sender,
+	recievers,
+	subject,
+	body,
+	sent,
+	sentDate,
+	attachment,
+}: {
+	sender: string;
+	recievers: string;
+	subject?: string;
+	body: string;
+	sent: boolean;
+	sentDate: Date;
+	attachment?: string;
+}) {
+	const mail = new Mail();
+
+	mail.sender = sender;
+	mail.recievers = recievers;
+	mail.subject = subject;
+	mail.body = body;
+	mail.sent = sent;
+	mail.sentDate = sentDate;
+	mail.attachment = attachment;
+
+	return await mail.save();
 }

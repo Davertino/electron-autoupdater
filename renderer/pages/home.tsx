@@ -1,12 +1,14 @@
-import Select, { Option } from "@/components/Select";
+import Select, { Option } from "../components/Select";
 import { Dialog, Transition } from "@headlessui/react";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
+import electron from "electron";
 import { FormEventHandler, Fragment, useState } from "react";
+import { useRouter } from "next/router";
+const ipcRenderer = electron.ipcRenderer || false;
 
 const Home: NextPage = () => {
 	let [isOpen, setIsOpen] = useState(false);
-
+	const router = useRouter();
 	const options: Option[] = [
 		{ value: "IMAP", label: "IMAP" },
 		{ value: "POP3", label: "POP3" },
@@ -23,17 +25,38 @@ const Home: NextPage = () => {
 		outgoingServer: "",
 	});
 
+	const [errors, setErrors] = useState({
+		email: [],
+		username: [],
+		password: [],
+		accountType: [],
+		incomingServer: [],
+		outgoingServer: [],
+	});
+
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 
-		console.log("hello submit");
+		if (ipcRenderer) {
+			ipcRenderer.send("newUser", mailServerData);
+			ipcRenderer.on("newUser", (event, arg) => {
+				if (arg.statusCode === 200) {
+					router.push("/ezmail");
+				}
+
+				if (arg.statusCode === 400) {
+					console.log(arg.errors);
+					setErrors(arg.errors);
+				}
+			});
+		}
 	};
 
 	return (
 		<div>
 			<div>
 				<div className="flex min-h-screen flex-col items-center justify-center bg-background text-center">
-					<a className="bg-white-border z-10 block max-w-sm rounded-lg border-gray-200 bg-white p-6 shadow dark:border-gray-700">
+					<div className="bg-white-border z-10 block max-w-sm rounded-lg border-gray-200 bg-white p-6 shadow dark:border-gray-700">
 						<h4 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-blue-900">
 							Start with adding a mail account
 						</h4>
@@ -41,7 +64,7 @@ const Home: NextPage = () => {
 							You can add more accounts after you have set
 							everything up.
 						</p>
-						<a href="ezmail">mails</a>
+
 						<button
 							type="button"
 							className="dark:focus:ring-[#4285F4]/55 mr-2 mb-2 inline-flex w-60 items-center justify-center rounded-lg bg-[#f2f2f2] px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:text-blue-900"
@@ -180,7 +203,7 @@ const Home: NextPage = () => {
 								Other mail account...
 							</span>
 						</button>
-					</a>
+					</div>
 				</div>
 			</div>
 
@@ -244,6 +267,31 @@ const Home: NextPage = () => {
 															})
 														}
 													/>
+
+													<ul className="mt-1">
+														{errors?.email ===
+														undefined
+															? null
+															: errors?.email.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
 												</div>
 
 												<div>
@@ -267,6 +315,31 @@ const Home: NextPage = () => {
 															})
 														}
 													/>
+
+													<ul className="mt-1">
+														{errors?.username ===
+														undefined
+															? null
+															: errors?.username.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
 												</div>
 
 												<div>
@@ -290,6 +363,31 @@ const Home: NextPage = () => {
 															})
 														}
 													/>
+
+													<ul className="mt-1">
+														{errors?.password ===
+														undefined
+															? null
+															: errors?.password.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
 												</div>
 
 												<Select
@@ -320,6 +418,31 @@ const Home: NextPage = () => {
 															})
 														}
 													/>
+
+													<ul className="mt-1">
+														{errors?.incomingServer ===
+														undefined
+															? null
+															: errors?.incomingServer.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
 												</div>
 
 												<div>
@@ -343,6 +466,31 @@ const Home: NextPage = () => {
 															})
 														}
 													/>
+
+													<ul className="mt-1">
+														{errors?.outgoingServer ===
+														undefined
+															? null
+															: errors?.outgoingServer.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
 												</div>
 
 												<div>
