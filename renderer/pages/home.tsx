@@ -1,4 +1,4 @@
-import Select, { Option } from "@/renderer/components/Select";
+import Select, { Option } from "../components/Select";
 import { Dialog, Transition } from "@headlessui/react";
 import { NextPage } from "next";
 import electron from "electron";
@@ -25,32 +25,32 @@ const Home: NextPage = () => {
 		outgoingServer: "",
 	});
 
-  const [errors, setErrors] = useState({
-    email: [],
-    username: [],
-    password: [],
-    accountType: [],
-    incomingServer: [],
-    outgoingServer: [],
-  });
+	const [errors, setErrors] = useState({
+		email: [],
+		username: [],
+		password: [],
+		accountType: [],
+		incomingServer: [],
+		outgoingServer: [],
+	});
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+		e.preventDefault();
 
-    if (ipcRenderer) {
-      ipcRenderer.send("newUser", mailServerData);
-      ipcRenderer.on("newUser", (event, arg) => {
-        if (arg.statusCode === 200) {
-          router.push("/ezmail");
-        }
+		if (ipcRenderer) {
+			ipcRenderer.send("newUser", mailServerData);
+			ipcRenderer.on("newUser", (event, arg) => {
+				if (arg.statusCode === 200) {
+					router.push("/ezmail");
+				}
 
-        if (arg.statusCode === 400) {
-          console.log(arg.errors);
-          setErrors(arg.errors);
-        }
-      });
-    }
-  };
+				if (arg.statusCode === 400) {
+					console.log(arg.errors);
+					setErrors(arg.errors);
+				}
+			});
+		}
+	};
 
 	return (
 		<div>
@@ -64,9 +64,7 @@ const Home: NextPage = () => {
 							You can add more accounts after you have set
 							everything up.
 						</p>
-						<a href="database" className="text-black">
-							database
-						</a>
+
 						<button
 							type="button"
 							className="dark:focus:ring-[#4285F4]/55 mr-2 mb-2 inline-flex w-60 items-center justify-center rounded-lg bg-[#f2f2f2] px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:text-blue-900"
@@ -245,102 +243,152 @@ const Home: NextPage = () => {
 												Add your mail account
 											</Dialog.Title>
 
-                      <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                          <label
-                            htmlFor="email"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            E-mailadress
-                          </label>
-                          <input
-                            type="email"
-                            id="email"
-                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            onChange={({ target }) =>
-                              setMailServerData({
-                                ...mailServerData,
-                                email: target.value,
-                              })
-                            }
-                          />
+											<form
+												onSubmit={handleSubmit}
+												className="space-y-6"
+											>
+												<div>
+													<label
+														htmlFor="email"
+														className="block text-sm font-medium leading-6 text-gray-900"
+													>
+														E-mailadress
+													</label>
+													<input
+														type="email"
+														id="email"
+														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+														onChange={({
+															target,
+														}) =>
+															setMailServerData({
+																...mailServerData,
+																email: target.value,
+															})
+														}
+													/>
 
-                          <ul className="mt-1">
-                            {errors?.email === undefined
-                              ? null
-                              : errors?.email.map((error, index) => {
-                                  return (
-                                    <li className="text-red-400" key={index}>
-                                      {error}
-                                    </li>
-                                  );
-                                })}
-                          </ul>
-                        </div>
+													<ul className="mt-1">
+														{errors?.email ===
+														undefined
+															? null
+															: errors?.email.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
+												</div>
 
-                        <div>
-                          <label
-                            htmlFor="username"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Username
-                          </label>
-                          <input
-                            type="text"
-                            id="username"
-                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            onChange={({ target }) =>
-                              setMailServerData({
-                                ...mailServerData,
-                                username: target.value,
-                              })
-                            }
-                          />
+												<div>
+													<label
+														htmlFor="username"
+														className="block text-sm font-medium leading-6 text-gray-900"
+													>
+														Username
+													</label>
+													<input
+														type="text"
+														id="username"
+														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+														onChange={({
+															target,
+														}) =>
+															setMailServerData({
+																...mailServerData,
+																username:
+																	target.value,
+															})
+														}
+													/>
 
-                          <ul className="mt-1">
-                            {errors?.username === undefined
-                              ? null
-                              : errors?.username.map((error, index) => {
-                                  return (
-                                    <li className="text-red-400" key={index}>
-                                      {error}
-                                    </li>
-                                  );
-                                })}
-                          </ul>
-                        </div>
+													<ul className="mt-1">
+														{errors?.username ===
+														undefined
+															? null
+															: errors?.username.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
+												</div>
 
-                        <div>
-                          <label
-                            htmlFor="username"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Password
-                          </label>
-                          <input
-                            type="password"
-                            id="password"
-                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            onChange={({ target }) =>
-                              setMailServerData({
-                                ...mailServerData,
-                                password: target.value,
-                              })
-                            }
-                          />
+												<div>
+													<label
+														htmlFor="username"
+														className="block text-sm font-medium leading-6 text-gray-900"
+													>
+														Password
+													</label>
+													<input
+														type="password"
+														id="password"
+														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+														onChange={({
+															target,
+														}) =>
+															setMailServerData({
+																...mailServerData,
+																password:
+																	target.value,
+															})
+														}
+													/>
 
-                          <ul className="mt-1">
-                            {errors?.password === undefined
-                              ? null
-                              : errors?.password.map((error, index) => {
-                                  return (
-                                    <li className="text-red-400" key={index}>
-                                      {error}
-                                    </li>
-                                  );
-                                })}
-                          </ul>
-                        </div>
+													<ul className="mt-1">
+														{errors?.password ===
+														undefined
+															? null
+															: errors?.password.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
+												</div>
 
 												<Select
 													label="Account type"
@@ -349,69 +397,101 @@ const Home: NextPage = () => {
 													setSelected={setSelected}
 												/>
 
-                        <div>
-                          <label
-                            htmlFor="username"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Incoming Mail Server
-                          </label>
-                          <input
-                            type="text"
-                            id="incoming-server"
-                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            onChange={({ target }) =>
-                              setMailServerData({
-                                ...mailServerData,
-                                incomingServer: target.value,
-                              })
-                            }
-                          />
+												<div>
+													<label
+														htmlFor="username"
+														className="block text-sm font-medium leading-6 text-gray-900"
+													>
+														Incoming Mail Server
+													</label>
+													<input
+														type="text"
+														id="incoming-server"
+														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+														onChange={({
+															target,
+														}) =>
+															setMailServerData({
+																...mailServerData,
+																incomingServer:
+																	target.value,
+															})
+														}
+													/>
 
-                          <ul className="mt-1">
-                            {errors?.incomingServer === undefined
-                              ? null
-                              : errors?.incomingServer.map((error, index) => {
-                                  return (
-                                    <li className="text-red-400" key={index}>
-                                      {error}
-                                    </li>
-                                  );
-                                })}
-                          </ul>
-                        </div>
+													<ul className="mt-1">
+														{errors?.incomingServer ===
+														undefined
+															? null
+															: errors?.incomingServer.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
+												</div>
 
-                        <div>
-                          <label
-                            htmlFor="username"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Outgoing Mail Server
-                          </label>
-                          <input
-                            type="text"
-                            id="outgoing-server"
-                            className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            onChange={({ target }) =>
-                              setMailServerData({
-                                ...mailServerData,
-                                outgoingServer: target.value,
-                              })
-                            }
-                          />
+												<div>
+													<label
+														htmlFor="username"
+														className="block text-sm font-medium leading-6 text-gray-900"
+													>
+														Outgoing Mail Server
+													</label>
+													<input
+														type="text"
+														id="outgoing-server"
+														className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+														onChange={({
+															target,
+														}) =>
+															setMailServerData({
+																...mailServerData,
+																outgoingServer:
+																	target.value,
+															})
+														}
+													/>
 
-                          <ul className="mt-1">
-                            {errors?.outgoingServer === undefined
-                              ? null
-                              : errors?.outgoingServer.map((error, index) => {
-                                  return (
-                                    <li className="text-red-400" key={index}>
-                                      {error}
-                                    </li>
-                                  );
-                                })}
-                          </ul>
-                        </div>
+													<ul className="mt-1">
+														{errors?.outgoingServer ===
+														undefined
+															? null
+															: errors?.outgoingServer.map(
+																	(
+																		error,
+																		index
+																	) => {
+																		return (
+																			<li
+																				className="text-red-400"
+																				key={
+																					index
+																				}
+																			>
+																				{
+																					error
+																				}
+																			</li>
+																		);
+																	}
+															  )}
+													</ul>
+												</div>
 
 												<div>
 													<button
