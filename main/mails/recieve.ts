@@ -25,13 +25,14 @@ export default async function fetchEmails(callback) {
         if (err) return callback(err);
         results.forEach((messageId) => {
           const fetchOptions = {
-            bodies: ["HEADER.FIELDS (FROM TO SUBJECT DATE)"],
+            bodies: ["HEADER.FIELDS (FROM TO SUBJECT DATE)", "TEXT"],
             struct: true,
           };
 
           const message = {
             id: messageId,
             headers: {},
+            body: "",
           };
 
           const fetch = imap.fetch(messageId, fetchOptions);
@@ -43,8 +44,12 @@ export default async function fetchEmails(callback) {
                 buffer += chunk.toString("utf8");
               });
               stream.on("end", () => {
-                const parsedHeaders = Imap.parseHeader(buffer);
-                message.headers = parsedHeaders;
+                if (info.which === "HEADER.FIELDS (FROM TO SUBJECT DATE)") {
+                  const parsedHeaders = Imap.parseHeader(buffer);
+                  message.headers = parsedHeaders;
+                } else if (info.which === "TEXT") {
+                  message.body = buffer;
+                }
               });
             });
           });
