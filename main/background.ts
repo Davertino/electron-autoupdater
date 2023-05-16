@@ -13,72 +13,72 @@ import fetchEmails from "./mails/recieve";
 const isProd: boolean = process.env.NODE_ENV === "production";
 
 if (isProd) {
-	serve({ directory: "app" });
+  serve({ directory: "app" });
 } else {
-	app.setPath("userData", `${app.getPath("userData")} (development)`);
+  app.setPath("userData", `${app.getPath("userData")} (development)`);
 }
 
 (async () => {
-	await app.whenReady();
+  await app.whenReady();
 
-	// Create the database with specification of the DataSource options
-	await createDatabase({
-		options,
-	});
-	const mainWindow = createWindow("main", {
-		width: 1000,
-		height: 600,
-	});
+  // Create the database with specification of the DataSource options
+  await createDatabase({
+    options,
+  });
+  const mainWindow = createWindow("main", {
+    width: 1000,
+    height: 600,
+  });
 
-	await AppDataSource.initialize();
+  await AppDataSource.initialize();
 
-	const user = await Users.find();
+  const user = await Users.find();
 
-	if (isProd) {
-		if (user.length === 0) {
-			await mainWindow.loadURL("app://./home.html");
-		}
-		await mainWindow.loadURL("app://./ezmail.html");
-	} else {
-		const port = process.argv[2];
-		if (user.length === 0) {
-			await mainWindow.loadURL(`http://localhost:${port}/home`);
-		}
-		await mainWindow.loadURL(`http://localhost:${port}/ezmail`);
+  if (isProd) {
+    if (user.length === 0) {
+      await mainWindow.loadURL("app://./home.html");
+    }
+    await mainWindow.loadURL("app://./ezmail.html");
+  } else {
+    const port = process.argv[2];
+    if (user.length === 0) {
+      await mainWindow.loadURL(`http://localhost:${port}/home`);
+    }
+    await mainWindow.loadURL(`http://localhost:${port}/ezmail`);
 
-		mainWindow.webContents.openDevTools();
-	}
+    mainWindow.webContents.openDevTools();
+  }
 })();
 app.on("window-all-closed", () => {
-	app.quit();
+  app.quit();
 });
 
 ipcMain.on("getItemDb", async (event, arg) => {
-	try {
-		const res = await getItemDb();
-		return event.reply("getItemDb", res);
-	} catch (e) {
-		event.reply("getItemDb", { status: "error" });
-	}
+  try {
+    const res = await getItemDb();
+    return event.reply("getItemDb", res);
+  } catch (e) {
+    event.reply("getItemDb", { status: "error" });
+  }
 });
 
 ipcMain.on("newUser", async (event, arg) => {
-	try {
-		const res = await createAccount(arg);
+  try {
+    const res = await createAccount(arg);
 
-		console.log(res, "Response");
-		return event.reply("newUser", res);
-	} catch (e) {
-		event.reply("newUser", { status: "error" });
-	}
+    console.log(res, "Response");
+    return event.reply("newUser", res);
+  } catch (e) {
+    event.reply("newUser", { status: "error" });
+  }
 });
 
 ipcMain.on("fetchEmails", async (event, arg) => {
-	fetchEmails((err, data) => {
-		if (err) {
-			console.log(err);
-			return event.reply("fetchEmails", { status: 500 });
-		}
-		return event.reply("fetchEmails", data);
-	});
+  fetchEmails((err, data) => {
+    if (err) {
+      console.log(err);
+      return event.reply("fetchEmails", { status: 500 });
+    }
+    return event.reply("fetchEmails", data);
+  });
 });
