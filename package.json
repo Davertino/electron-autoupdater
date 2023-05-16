@@ -10,6 +10,14 @@
 		"build": "nextron build",
 		"postinstall": "electron-builder install-app-deps"
 	},
+	"publish": [
+		{
+		  "provider": "github",
+		  "owner": "Davertino",
+		  "repo": "electron-autoupdater",
+		  "releaseType": "release"
+		}
+	  ],
 	"dependencies": {
 		"@headlessui/react": "^1.7.13",
 		"@iconify/react": "^4.1.0",
@@ -17,6 +25,7 @@
 		"babel-plugin-transform-typescript-metadata": "^0.3.2",
 		"electron-serve": "^1.1.0",
 		"electron-store": "^8.1.0",
+		"electron-updater": "^5.3.0",
 		"node-imap": "^0.9.6",
 		"reflect-metadata": "^0.1.13",
 		"sqlite3": "^5.1.6",

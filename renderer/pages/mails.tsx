@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import fetchEmails from "@/main/mails/recieve";
+import fetchEmails from "../../main/mails/recieve";
 
 export default function Mail() {
   useEffect(() => {

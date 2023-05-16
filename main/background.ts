@@ -10,6 +10,7 @@ import { AppDataSource } from "./database/data-source";
 import createAccount from "./accounts/create";
 import { Users } from "./database/entity/Users";
 import fetchEmails from "./mails/recieve";
+import { UpdateService } from './updateService';
 const isProd: boolean = process.env.NODE_ENV === "production";
 
 if (isProd) {
@@ -20,6 +21,8 @@ if (isProd) {
 
 (async () => {
 	await app.whenReady();
+
+	UpdateService.init();
 
 	// Create the database with specification of the DataSource options
 	await createDatabase({
