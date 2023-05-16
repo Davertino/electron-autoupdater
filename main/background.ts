@@ -7,10 +7,9 @@ import { placeItemDb } from "./mails/save";
 import { getItemDb } from "./mails/get";
 import { options } from "../lib/utils";
 import { AppDataSource } from "./database/data-source";
-import { saveUser } from "./Users/save";
 import createAccount from "./accounts/create";
-import { Repository } from "typeorm";
 import { Users } from "./database/entity/Users";
+import fetchEmails from "./mails/recieve";
 const isProd: boolean = process.env.NODE_ENV === "production";
 
 if (isProd) {
@@ -50,18 +49,8 @@ if (isProd) {
 		mainWindow.webContents.openDevTools();
 	}
 })();
-
 app.on("window-all-closed", () => {
 	app.quit();
-});
-
-ipcMain.on("placeItemDb", async (event, arg) => {
-	try {
-		const res = await placeItemDb();
-		return event.reply("placeItemDb", { status: "ok" });
-	} catch (e) {
-		return event.reply("placeItemDb", { status: "error" });
-	}
 });
 
 ipcMain.on("getItemDb", async (event, arg) => {
@@ -82,4 +71,14 @@ ipcMain.on("newUser", async (event, arg) => {
 	} catch (e) {
 		event.reply("newUser", { status: "error" });
 	}
+});
+
+ipcMain.on("fetchEmails", async (event, arg) => {
+	fetchEmails((err, data) => {
+		if (err) {
+			console.log(err);
+			return event.reply("fetchEmails", { status: 500 });
+		}
+		return event.reply("fetchEmails", data);
+	});
 });

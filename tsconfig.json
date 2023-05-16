@@ -16,11 +16,7 @@
 		"isolatedModules": true,
 		"experimentalDecorators": true,
 		"strictPropertyInitialization": false,
-		"jsx": "preserve",
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./*"]
-		}
+		"jsx": "preserve"
 	},
 
 	"exclude": ["node_modules", "renderer/next.config.js", "app", "dist"]
