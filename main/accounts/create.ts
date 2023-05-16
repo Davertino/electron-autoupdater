@@ -58,15 +58,6 @@ export default async function createAccount(mailData) {
     };
   }
 
-  console.log(
-    email,
-    username,
-    password,
-    accountType,
-    incomingServer,
-    outgoingServer
-  );
-
   try {
     await connectToImap(username, password, incomingServer);
 
