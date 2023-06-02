@@ -13,12 +13,17 @@ import { Mail } from "./database/entity/Mail";
 import { app, dialog, BrowserWindow } from "electron";
 import { autoUpdater } from "electron-updater";
 import * as isDev from "electron-is-dev";
+import ProgressBar from 'electron-progressbar';
+
 
 const isDevelopment: boolean = isDev;
 
 const isProd: boolean = process.env.NODE_ENV === "production";
 
 require("dotenv").config();
+
+    autoUpdater.autoDownload = false;
+    autoUpdater.autoInstallOnAppQuit = true;
 
 if (isProd) {
     serve({ directory: "app" });
@@ -28,13 +33,49 @@ if (isProd) {
 
 (async () => {
     await app.whenReady();
-  
+
     autoUpdater.autoDownload = false;
     console.log("Testie westie UwU");
   
     if (!isDev) {
         autoUpdater.checkForUpdates();
     }
+
+    autoUpdater.on("update-not-available", () => {
+    // Do nothing
+});
+
+
+    autoUpdater.on("update-available", () => {
+        dialog.showMessageBox({
+            type: "info",
+            title: "Update Available",
+            message: "A new version of Crail is available. Do you want to update now?",
+            buttons: ["Update", "No"],
+        }).then((result) => {
+            const buttonIndex = result.response;
+            if (buttonIndex === 0) {
+                autoUpdater.downloadUpdate();
+            }
+        });
+    });
+      
+
+    autoUpdater.on("update-downloaded", () => {
+        dialog.showMessageBox({
+            type: "info",
+            title: "Update Ready",
+            message: "Install and restart now?",
+            buttons: ["Install", "Later"],
+        }).then((result) => {
+            const buttonIndex = result.response;
+            if (buttonIndex === 0) {
+                autoUpdater.quitAndInstall(true, false);
+            }
+        });
+    });
+
+    
   
     // Create the database with specification of the DataSource options
     await createDatabase({
