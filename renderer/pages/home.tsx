@@ -58,7 +58,7 @@ const Home: NextPage = () => {
 				<div className="flex min-h-screen flex-col items-center justify-center bg-background text-center">
 					<div className="bg-white-border z-10 block max-w-sm rounded-lg border-gray-200 bg-white p-6 shadow dark:border-gray-700">
 						<h4 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-blue-900">
-							Start with adding a mail account PeekAbooo
+							Start with adding a mail account PeekAboo
 						</h4>
 						<p className="mt-4 pb-5 font-normal text-gray-700 dark:text-gray-400">
 							You can add more accounts after you have set

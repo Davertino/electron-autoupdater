@@ -42,7 +42,6 @@ if (isProd) {
     }
 
     autoUpdater.on("update-not-available", () => {
-    // Do nothing
 });
 
 
@@ -74,6 +73,9 @@ if (isProd) {
             }
         });
     });
+
+        
+
 
     
   
